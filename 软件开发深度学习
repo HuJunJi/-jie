@@ -1,0 +1,136 @@
+1.理解深度学习的基础知识： 通过课程， 你可以了解深度学习的基本原理、数学基础(如线性代数、微积分、概率论等) 以及神经网络的基本结构和工作方式。
+2.掌握深度学习的重要技术：课程通常会涵盖一些重要的深度学习技术， 例如前馈神经网络、反向传播算法、优化方法 (如梯度下降法) 、卷积神经网络 (CNN) 等。这些技术在图像和语音处理等许多领域都有广泛应用。
+3.熟悉深度学习的工具和框架： 深度学习的开发需要特定的工具和框架， 如TensorFlow、PyTorch等。通过课程, 你可以熟悉这些工具的使用方法，了解如何用它们来构建和训练深度学习模型。
+4.理解深度学习在现实世界的应用： 深度学习的应用已经渗透到许多领域， 如自动驾驶、自然语言处理 (NLP) 、计算机视觉等。通过课程， 你可以了解这些应用的原理和实现方法。
+5.实践经验： 通过课程中的项目实践， 你可以将所学知识应用到实际问题中。这不仅可以加深你对理论知识的理解， 还可以让你了解到深度学习的实际应用是多么有趣和挑战性。
+6.培养问题解决能力：学习深度学习有助于培养针对复杂问题的解决方案的搜索和实验能力。它教会你如何利用理论和工具去尝试和优化，以寻找最佳解决方案。
+而软件开发实践课程在一下场景也会用到：
+   自然语言处理：深度学习技术，如自然语言理解、文本分类和推荐算法等， 被广泛应用于软件或应用中的语言处理部分。例如， 社交媒体上的大量用户评论和文章可以被深度学习模型分类和解析， 从而用于文本分类或推荐系统。
+！.图像识别与物体检测：深度学习也被广泛应用于图像处理和物体检测。例如， 目标检测是图像处理中的重要技术， 可以通过深度学习实现。
+3.语音识别： 深度学习可以用来提高语音识别的准确性。例如， 语音到文本的转换(语音识别) 和文本到语音的转换 (文本转语音) 都可以通过深度学习模型来实现。
+4.决策支持系统：深度学习可以通过建立预测模型来支持决策制定。例如， 深度学习可以用作金融市场的预测模型， 帮助投资者做出更好的投资决策。
+5.推荐系统： 深度学习可以通过分析用户行为数据来提高推荐系统的性能。例如， 用户在电子商务网站上的购买历史和浏览行为可以被深度学习模型分析， 从而为用户提供更精准的商品推荐。
+6.网络安全：深度学习可以用于识别和分析网络攻击。例如， 深度学习模型可以分析网络流量数据， 检测异常流量模式， 从而帮助保护网络免受恶意攻击。
+import numpy as np
+import torch
+import torch.nn as nn
+def forward(x,w1,w2):
+    net1 = nn.Linear(2,2)
+    net1.weight.data = w1
+    net1.bias.data = torch.Tensor([0])
+    h = net1(x)
+    h= torch.sigmoid(h)
+
+    net2 = nn.Linear(2,2)
+    net2.weight.data = w2
+    net2.bias.data = torch.Tensor([0])
+    o = net2.forward(x)
+    o = torch.sigmoid(o)
+    return o
+
+if __name__=='__main__':
+    x = torch.tensor([0.5, 0.3])
+    w1 = torch.tensor([[0.2, 0.5], [-0.4, 0.6]])
+    w2 = torch.tensor([[0.1, -0.3], [-0.5, 0.8]])
+    output = forward(x,w1,w2)
+    print('最终的输出值是：',output)
+
+
+import torch
+import torch.nn as nn
+
+class Net(nn.Module):
+    def __init__(self,input_size,hidden_size,output_size) -> None:
+        super().__init__()
+        self.fc1 = nn.Linear(input_size,hidden_size)
+        self.sigmoid = torch.nn.Sigmoid() #torch.sigmoid
+        self.fc2 = nn.Linear(hidden_size,output_size) #
+
+    def forward(self,x,w1,w2):
+        self.fc1.weight.data = w1
+        self.fc1.bias.data = torch.Tensor([0])
+        h = self.fc1(x)
+        h = self.sigmoid(h)
+
+        self.fc2.weight.data = w2
+        self.fc2.bias.data = torch.Tensor([0])
+        o = self.fc2(h)
+        o = self.sigmoid(o)
+        return o
+
+if __name__=='__main__':
+    x = torch.tensor([0.5, 0.3])
+    w1 = torch.tensor([[0.2, 0.5], [-0.4, 0.6]])
+    w2 = torch.tensor([[0.1, -0.3], [-0.5, 0.8]])
+
+    net = Net(2,2,2)
+    output = net(x,w1,w2)
+    # net.forward(x,w1,w2)
+    print('最终的输出值为：',output)
+
+
+import torch
+import torch.nn as nn
+class Net(nn.Module):
+    def __init__(self,input_size,hidden_size,output_size) -> None:
+        super().__init__()
+        self.fc1 = nn.Linear(input_size,hidden_size)
+        self.sigmoid = torch.nn.Sigmoid()
+        self.fc2 = nn.Linear(hidden_size,output_size)
+    def forward(self,x,w1,w2):
+        self.fc1.weight.data = w1
+        self.fc1.bias.data = torch.Tensor([0])
+        out = self.fc1(x)
+        out = self.sigmoid(out)
+
+        self.fc2.weight.data=w2
+        self.fc2.bias.data = torch.Tensor([0])
+        output = self.fc2(out)
+        output=self.sigmoid(output)
+        return output
+
+if __name__=='__main__':
+    x = torch.tensor([0.5, 0.3])
+    y = torch.tensor([0.23, 0.07])
+    w1 = torch.tensor([[0.2, 0.5], [-0.4, 0.6]])
+    w2 = torch.tensor([[0.1, -0.3], [-0.5, 0.8]])
+    net = Net(2,2,2)
+
+    loss = nn.MSELoss()  #定义损失函数
+    optimizer = torch.optim.SGD(params=net.parameters(),lr=1e-2) #定义优化器
+
+    for i in range(1000):
+        output = net(x,w1,w2)
+        loss_fn = loss(output,y)
+        optimizer.zero_grad()
+        loss_fn.backward()
+        optimizer.step()
+        print('损失函数的变化情况',i,loss_fn)
+    print(output)
+
+点点 2023/9/24 11:05:55
+
+import torchvision
+from torch.utils.data import DataLoader
+
+train_data = torchvision.datasets.CIFAR10(root='data',transform=torchvision.transforms.ToTensor(),download=True)
+train_loader = DataLoader(train_data,batch_size=64,shuffle=True,drop_last=True)
+
+点点 2023/9/24 14:19:20
+                Conv2d(3, 32, 5, padding=2),
+                MaxPool2d(2),
+                Conv2d(32, 32, 5, padding=2),
+                MaxPool2d(2),
+                Conv2d(32, 64, 5, padding=2),
+                MaxPool2d(2),
+                Flatten(),
+                Linear(1024, 64),
+                Linear(64, 10)
+
+
+
+
+
+
+
+
